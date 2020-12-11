@@ -51,6 +51,54 @@ app.get('/api/persons/:id', (req, res) => {
     }
 })
 
+app.delete('/api/persons/:id', (req, res) => {
+    const id = Number(req.params.id)
+    persons = persons.filter(person => person.id !== id)
+
+    res.status(204).end()
+})
+
+app.post('/api/persons', (req, res) => {
+    const body = req.body
+
+    console.log(body)
+
+    if(!body.name || !body.number) {
+        return res.status(400).json({
+            error: 'name or number missing'
+        })
+    }
+    const sameName = persons.find(person => person.name === body.name)
+    const sameNumber = persons.find(person => person.number === body.number) 
+    if(sameName) {
+        return res.status(400).json({
+            error: 'name must be unique'
+        })
+    }
+
+    if(sameNumber) {
+        return res.status(400).json({
+            error: 'number must be unique'
+        })
+    }
+
+    const person = {
+        name: body.name,
+        number: body.number,
+        id: generateId()
+    }
+
+    persons = persons.concat(person)
+
+    res.json(person)
+})
+
+const generateId = () => {
+    const id = Math.floor(Math.random() * Math.floor(347))
+
+    return id
+}
+
 const PORT = 3001
 app.listen(PORT)
 console.log(`Server running on port ${PORT}`)
