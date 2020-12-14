@@ -2,6 +2,6 @@ POST https://protected-waters-29351.herokuapp.com/api/persons
 Content-Type: application/json
 
 {
-    "name": "Nooraaa",
+    "name": "Noora",
     "number": "123456-999"
 }
