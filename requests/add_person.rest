@@ -1,4 +1,4 @@
-POST http://localhost:3001/api/persons 
+POST https://protected-waters-29351.herokuapp.com/api/persons 
 Content-Type: application/json
 
 {
