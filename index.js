@@ -6,6 +6,7 @@ const cors = require('cors')
 const app = express()
 const Person = require('./models/person')
 
+
 morgan.token('post-content', (req) => {
     if (req.method === 'POST') {
         return  JSON.stringify(req.body)
@@ -123,6 +124,10 @@ const errorHandler = (error, request, response, next) => {
 
     if(error.name === 'CastError') {
         return response.status(400).send({ error: 'malformatted id'})
+    }
+
+    if(error.name === 'ValidationError') {
+        return response.status(400).json({ errorMessage: error.message})
     }
 }
 
