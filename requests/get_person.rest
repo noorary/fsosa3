@@ -1,1 +1,3 @@
-GET https://protected-waters-29351.herokuapp.com/api/persons/
+// GET https://protected-waters-29351.herokuapp.com/api/persons/
+
+GET http://localhost:3001/api/persons/
