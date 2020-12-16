@@ -1,5 +1,4 @@
 require('dotenv').config()
-const { json, response } = require('express')
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
@@ -27,12 +26,11 @@ app.get('/api/persons', (req, res) => {
 })
 
 app.get('/info', (req, res, next) => {
-    
     const dateTime = new Date
     console.log(dateTime)
 
     Person.countDocuments({}, (error, count) => {
-        res.json({ info: `Phonebook has info for ${count} people `, dateTime})
+        res.json({ info: `Phonebook has info for ${count} people `, dateTime })
     }).catch((error) => next(error))
 })
 
@@ -82,12 +80,12 @@ app.post('/api/persons', (req, res, next) => {
 
     person.save()
         .then(savedPerson => {
-        res.json(savedPerson)
-    })
-    .catch(error => {
-        console.log(error)
-        next(error)
-    })
+            res.json(savedPerson)
+        })
+        .catch(error => {
+            console.log(error)
+            next(error)
+        })
 })
 
 app.put('/api/persons/:id', (req, res, next) => {
@@ -114,27 +112,25 @@ app.put('/api/persons/:id', (req, res, next) => {
 })
 
 const unknownEndpoint = (req, res) => {
-    res.status(404).send({ error: 'unknown endpoint'})
+    res.status(404).send({ error: 'unknown endpoint' })
 }
 
 app.use(unknownEndpoint)
 
-const errorHandler = (error, request, response, next) => {
+const errorHandler = (error, request, response) => {
     console.log(error.message)
 
     if(error.name === 'CastError') {
-        return response.status(400).send({ error: 'malformatted id'})
+        return response.status(400).send({ error: 'malformatted id' })
     }
 
     if(error.name === 'ValidationError') {
-        return response.status(400).json({ errorMessage: error.message})
+        return response.status(400).json({ errorMessage: error.message })
     }
 }
 
 app.use(errorHandler)
-
-
-const PORT = process.env.PORT 
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
